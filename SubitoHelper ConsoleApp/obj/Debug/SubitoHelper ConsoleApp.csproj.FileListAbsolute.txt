@@ -1,0 +1,3 @@
+d:\documenti\visual studio 2015\Projects\SubitoHelper ConsoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.exe.config
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.exe.config
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\obj\Debug\SubitoHelper ConsoleApp.csprojResolveAssemblyReference.cache
