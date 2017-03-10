@@ -14,6 +14,7 @@ using System.IO;
 using System.Text;
 using System.IO.Compression;
 using System.Drawing;
+using SubitoHelper_ConsoleApp.Model;
 
 namespace SubitoNotifier.Controllers
 {
@@ -36,7 +37,6 @@ namespace SubitoNotifier.Controllers
         string city;            //città. codici da estrapolare 
         string region;          //regione. codice da estrapolare al momento
 
-
         public SubitoController()
         {
             this.maxNum = Uri.EscapeDataString("20");
@@ -45,7 +45,7 @@ namespace SubitoNotifier.Controllers
             this.typeIns = "s,u,h";
         }
 
-        public async Task<string> GetInsertion(string botToken, string chatToken, string category="", string city ="", string region ="", string searchText="")
+        public async Task<string> GetInsertion(string botToken, string chatToken, string connectionString, string category="", string city ="", string region ="", string searchText="")
         {
             try
             {
@@ -76,11 +76,11 @@ namespace SubitoNotifier.Controllers
                 {
                     List<Ad> newAds = new List<Ad>(); //these are the new insertions to be sent by the telegram bot
                     var firstId = insertions.GetFirstAdId();
-                    var latestInsertion = SQLHelper.GetLatestInsertionID(parameters); //grab the id of the last checked insertion with the same parameters
+                    var latestInsertion = SQLHelper.GetLatestInsertionID(parameters, connectionString); //grab the id of the last checked insertion with the same parameters
                     if (latestInsertion == null) // if there is no id, it means this is a new search
                     {
                         newAds.Add(insertions.ads.FirstOrDefault());
-                        SQLHelper.InsertLatestInsertion(firstId, parameters); // insert a new line with these parameters
+                        SQLHelper.InsertLatestInsertion(firstId, parameters, connectionString); // insert a new line with these parameters
                     }
                     else if (firstId > latestInsertion.SubitoId) //if there is an id, we just update the line with the new top id and send all the new insertions to the telegram bot
                     {
@@ -89,7 +89,7 @@ namespace SubitoNotifier.Controllers
                             newAds.Add(insertions.ads.ElementAt(i));
                         }
                         latestInsertion.SubitoId = firstId;
-                        SQLHelper.UpdateLatestInsertion(latestInsertion);
+                        SQLHelper.UpdateLatestInsertion(latestInsertion, connectionString);
                     }
 
                     //this sends the messages to telegram

@@ -1,3 +1,13 @@
 d:\documenti\visual studio 2015\Projects\SubitoHelper ConsoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.exe.config
 C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.exe.config
 C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\obj\Debug\SubitoHelper ConsoleApp.csprojResolveAssemblyReference.cache
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.exe
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\SubitoHelper ConsoleApp.pdb
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\Newtonsoft.Json.dll
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\Telegram.Bot.dll
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\Newtonsoft.Json.xml
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\bin\Debug\Telegram.Bot.xml
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\obj\Debug\SubitoHelper ConsoleApp.exe
+C:\Users\piemo\Source\Repos\SubitoHelper-consoleApp\SubitoHelper ConsoleApp\obj\Debug\SubitoHelper ConsoleApp.pdb
