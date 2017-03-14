@@ -34,6 +34,11 @@ namespace SubitoHelper_ConsoleApp
         private static SubitoSettings createSettings(string path)
         {
             File.Create(path).Dispose();
+            return editSettings(path);
+        }
+
+        private static SubitoSettings editSettings(string path)
+        {
             using (var tw = new StreamWriter(path))
             {
                 SubitoSettings settings = new SubitoSettings();
@@ -60,27 +65,38 @@ namespace SubitoHelper_ConsoleApp
         private static async Task JobSelection(SubitoSettings settings)
         {
             SubitoController subitoController = new SubitoController();
-            Console.WriteLine("1. Delete all Insertions");
-            Console.WriteLine("2. Reinsert all Insertions saved on the bitbucket File ");
             int choice = 0;
-            while ( choice == 0)
-            {
-                int.TryParse(Console.ReadLine(), out choice);
-            }
             string result = string.Empty;
-            switch (choice)
+            while (choice != 9)
             {
-                case 1:
-                    result = await subitoController.GetDeleteAll(settings.username,settings.password);
-                    break;
+                Console.WriteLine("1. Delete all Insertions");
+                Console.WriteLine("2. Reinsert all Insertions saved on the bitbucket File ");
+                Console.WriteLine("4. edit the preferences");
+                Console.WriteLine("9. close");
+                while (choice == 0)
+                    int.TryParse(Console.ReadLine(), out choice);
+                switch (choice)
+                {
+                    case 1:
+                        result = await subitoController.GetDeleteAll(settings.username, settings.password);
+                        Console.WriteLine(result);
+                        break;
 
-                case 2:
-                    result = await subitoController.GetReinsertAll(settings.username, settings.password,settings.idPastebin);
-                    break;
+                    case 2:
+                        result = await subitoController.GetReinsertAll(settings.username, settings.password, settings.idPastebin);
+                        Console.WriteLine(result);
+                        break;
+
+                    case 4:
+                        var path = Path.Combine(Directory.GetCurrentDirectory(), "settings.txt");
+                        settings = editSettings(path);
+                        break;
+
+                    case 9:
+                        break;
+                }
+                choice = 0;
             }
-            Console.WriteLine(result);
-            Console.ReadLine();
-            
         }
     }
 }

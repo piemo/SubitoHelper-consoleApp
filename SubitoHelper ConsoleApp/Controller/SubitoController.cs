@@ -126,6 +126,7 @@ namespace SubitoNotifier.Controllers
                     if (result == false)
                         throw(new Exception());
 
+                    Console.WriteLine("cancellato " + ad.subject);
                     //wait 1 sec
                     await Task.Delay(1000);
                 }
@@ -157,6 +158,7 @@ namespace SubitoNotifier.Controllers
                 {
                     string result = await PostNewInsertion(ins, subitoWebClient);
 
+                    Console.WriteLine("aggiunta inserzione: " + ins.Subject);
                     //wait 1 sec
                     await Task.Delay(1000);
                 }
