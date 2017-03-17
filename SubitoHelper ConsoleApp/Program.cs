@@ -73,29 +73,47 @@ namespace SubitoHelper_ConsoleApp
                 Console.WriteLine("2. Reinsert all Insertions saved on the bitbucket File ");
                 Console.WriteLine("4. edit the preferences");
                 Console.WriteLine("9. close");
+                choice = 0;
                 while (choice == 0)
                     int.TryParse(Console.ReadLine(), out choice);
-                switch (choice)
-                {
-                    case 1:
-                        result = await subitoController.GetDeleteAll(settings.username, settings.password);
-                        Console.WriteLine(result);
-                        break;
+                if (confirmselection()) { 
+                    Console.WriteLine();
+                    switch (choice)
+                    {
+                        case 1:
+                            result = await subitoController.GetDeleteAll(settings.username, settings.password);
+                            Console.WriteLine(result);
+                            break;
 
-                    case 2:
-                        result = await subitoController.GetReinsertAll(settings.username, settings.password, settings.idPastebin);
-                        Console.WriteLine(result);
-                        break;
+                        case 2:
+                            result = await subitoController.GetReinsertAll(settings.username, settings.password, settings.idPastebin);
+                            Console.WriteLine(result);
+                            break;
 
-                    case 4:
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "settings.txt");
-                        settings = editSettings(path);
-                        break;
+                        case 4:
+                            var path = Path.Combine(Directory.GetCurrentDirectory(), "settings.txt");
+                            settings = editSettings(path);
+                            break;
 
-                    case 9:
-                        break;
+                        case 9:
+                            break;
+                    }
+                    Console.WriteLine();
                 }
-                choice = 0;
+            }
+        }
+
+        private static bool confirmselection()
+        {
+            Console.WriteLine();
+            Console.WriteLine("are you sure? y/n");
+            while (true)
+            {
+                string result = Console.ReadLine();
+                if (result == "y")
+                    return true;
+                else if (result == "n")
+                    return false;
             }
         }
     }
