@@ -110,6 +110,9 @@ namespace SubitoNotifier.Controllers
         {
             try
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Deleting all insertions...");
+                Console.ResetColor();
                 SubitoWebClient subitoWebClient = new SubitoWebClient();
 
                 //login to get cookies
@@ -121,12 +124,14 @@ namespace SubitoNotifier.Controllers
                 //deleting insertions
                 foreach (Ad ad in insertions.ads)
                 {
+                    Console.Write("Deleting " + ad.subject);
                     bool result = await DeleteInsertion(loginData.user_id, ad, subitoWebClient);
                     //if it couldn't delete the ad, throw an exception
                     if (result == false)
                         throw(new Exception());
-
-                    Console.WriteLine("cancellato " + ad.subject);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\rDeleted " + ad.subject+"    ");
+                    Console.ResetColor();
                     //wait 1 sec
                     await Task.Delay(1000);
                 }
@@ -143,6 +148,9 @@ namespace SubitoNotifier.Controllers
         {
             try
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Inserting all insertions from the pasteBin file...");
+                Console.ResetColor();
                 SubitoWebClient subitoWebClient = new SubitoWebClient();
                 
                 //login to get cookies
@@ -150,15 +158,23 @@ namespace SubitoNotifier.Controllers
 
                 // Getting the list of insertions to post from a json on pastebin.com
                 List<NewInsertion> newInsertions = new List<NewInsertion>();
+                Console.WriteLine("Getting json file at pastebin.com/raw/"+addressNewInsertions);
                 string responseString = await subitoWebClient.DownloadStringTaskAsync(new Uri("http://pastebin.com/raw/"+ addressNewInsertions));
+                Console.WriteLine("File found. Deserializing json...");
                 newInsertions = JsonConvert.DeserializeObject<List<NewInsertion>>(responseString);
+                Console.WriteLine(newInsertions.Count + " to add");
+
 
                 //inserting each new insertion
-                foreach(NewInsertion ins in newInsertions)
+                foreach (NewInsertion ins in newInsertions)
                 {
+
                     string result = await PostNewInsertion(ins, subitoWebClient);
 
-                    Console.WriteLine("aggiunta inserzione: " + ins.Subject);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\raggiunta inserzione: " + ins.Subject + "                     ");
+                    Console.ResetColor();
+
                     //wait 1 sec
                     await Task.Delay(1000);
                 }
@@ -173,6 +189,7 @@ namespace SubitoNotifier.Controllers
 
         public async Task<string> PostNewInsertion(NewInsertion newInsertion, SubitoWebClient subitoWebClient)
         {
+            Console.Write("inserting " + newInsertion.Subject +"...");
             //calling these services to initiate the insertion procedure. can't skip these
             string response = await subitoWebClient.GetRequest(new Uri(INSERTIONURL + "/api/v5/aij/form/0?v=5", UriKind.Absolute));
             response = await subitoWebClient.GetRequest(new Uri(INSERTIONURL + "/aij/init/0?v=5&v=5", UriKind.Absolute));
@@ -181,10 +198,13 @@ namespace SubitoNotifier.Controllers
 
             //check if the insertion with the datas (body, title etc) cab be posted with those datas
             response = await subitoWebClient.PostRequest(newInsertion.ToString(), new Uri(INSERTIONURL + "/api/v5/aij/verify/0", UriKind.Absolute));
-
+            int i = 0;
             //inserting images
             foreach (string imageAddress in newInsertion.images)
             {
+                i++;
+                Console.Write("\ruploading " + newInsertion.Subject + " image " +i +"                     ");
+
                 //downloading the image from imgur first. The link is in the pastebin json file
                 string imageToString = Convert.ToBase64String(subitoWebClient.DownloadData(new Uri(imageAddress)));
                 //sending the image
@@ -195,6 +215,7 @@ namespace SubitoNotifier.Controllers
 
             //confirm the insertion
             return await subitoWebClient.PostRequest(newInsertion.ToString(), new Uri(INSERTIONURL + "/api/v5/aij/create/0", UriKind.Absolute));
+
         }
 
         public async Task<Insertions> GetUserInsertionsByID(int id, SubitoWebClient subitoWebClient)

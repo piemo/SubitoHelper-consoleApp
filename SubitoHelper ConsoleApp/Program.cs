@@ -3,13 +3,15 @@ using SubitoHelper_ConsoleApp.Model;
 using SubitoNotifier.Controllers;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SubitoHelper_ConsoleApp
 {
     class Program
     {
-        static void Main(string[] args)
+
+    static void Main(string[] args)
         {
             Task.Run(async () =>
             {
@@ -69,13 +71,19 @@ namespace SubitoHelper_ConsoleApp
             string result = string.Empty;
             while (choice != 9)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Subito controller\n\nChoose the number of one the following options, then press enter\n");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("1. Delete all Insertions");
-                Console.WriteLine("2. Reinsert all Insertions saved on the bitbucket File ");
+                Console.WriteLine("2. Reinsert all Insertions saved on the Pastebin File ");
+                Console.WriteLine("3. update all insertions ( remove and repost all )");
                 Console.WriteLine("4. edit the preferences");
                 Console.WriteLine("9. close");
+                Console.WriteLine();
                 choice = 0;
-                while (choice == 0)
-                    int.TryParse(Console.ReadLine(), out choice);
+                while (!int.TryParse(Console.ReadLine(), out choice)){
+                    Console.WriteLine("\nInput not recognized. Choose the number of one the following options, then press enter\n");
+                }
                 if (confirmselection()) { 
                     Console.WriteLine();
                     switch (choice)
@@ -86,6 +94,13 @@ namespace SubitoHelper_ConsoleApp
                             break;
 
                         case 2:
+                            result = await subitoController.GetReinsertAll(settings.username, settings.password, settings.idPastebin);
+                            Console.WriteLine(result);
+                            break;
+
+                        case 3:
+                            result = await subitoController.GetDeleteAll(settings.username, settings.password);
+                            Console.WriteLine(result);
                             result = await subitoController.GetReinsertAll(settings.username, settings.password, settings.idPastebin);
                             Console.WriteLine(result);
                             break;
@@ -107,6 +122,7 @@ namespace SubitoHelper_ConsoleApp
         {
             Console.WriteLine();
             Console.WriteLine("are you sure? y/n");
+            Console.WriteLine();
             while (true)
             {
                 string result = Console.ReadLine();
@@ -114,7 +130,9 @@ namespace SubitoHelper_ConsoleApp
                     return true;
                 else if (result == "n")
                     return false;
+                Console.WriteLine("Input not recognized. are you sure? y/n");
             }
         }
     }
+
 }

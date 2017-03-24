@@ -21,12 +21,15 @@ namespace SubitoNotifier.Models
         public int Category { get; set; }
         public string Name { get; set; }
         public string Subject { get; set; }
+        public string Sport_type { get; set; }
         public List<string> images { get; set; }
 
         public override string ToString() //method to be used when inserting a new add. return an encoded string which must be used
         {
-
-            return $"tos={tos}&ch={ch}&region={Region}&city={City}&phone={Phone}&email={HttpUtility.UrlEncode(Email)}&body={HttpUtility.UrlEncode(Body)}&phone_hidden={Phone_hidden}&price={Price}&town={Town}&category={Category}&company_ad={company_ad}&name={Name}&subject={Subject}&type={type}";
+            string s = $"tos={tos}&ch={ch}&region={Region}&city={City}&phone={Phone}&email={HttpUtility.UrlEncode(Email)}&body={HttpUtility.UrlEncode(Body)}&phone_hidden={Phone_hidden}&price={Price}&town={Town}&category={Category}&company_ad={company_ad}&name={Name}&subject={Subject}&type={type}";
+            if (Sport_type != null && Sport_type != "")
+                s += $"&sport_type={Sport_type}";
+            return s;
         }
 
     }
